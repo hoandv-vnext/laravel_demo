@@ -12,36 +12,21 @@
 */
 
 // Home
+
 Route::get('/', function () {
     return view('admin.home');
 });
 
 
-// login: admin
-Route::get('admincp/login', ['as' => 'getLogin', 'uses' => 'Admin\AdminLoginController@getLogin']);
-Route::post('admincp/login', ['as' => 'postLogin', 'uses' => 'Admin\AdminLoginController@postLogin']);
-Route::get('admincp/logout', ['as' => 'getLogout', 'uses' => 'Admin\AdminLoginController@getLogout']);
-
-/* 
-Route::group(['middleware' => 'checkAdminLogin', 'prefix' => 'admincp', 'namespace' => 'Admin'], function() {
-	Route::get('/', function() {
-		return view('admin.home');
-	});
-}); 
-*/
-
+// login
 
 
 // Resource: manage
 Route::resource('crud', 'CRUDController');
 
 
-
-
-
-
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('login', 'Auth\LoginController@authenticate');
+
