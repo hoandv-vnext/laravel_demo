@@ -11,34 +11,37 @@
 |
 */
 
-
+// Home
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.home');
 });
 
 
-/*
-Route::get('/{hoandv}', function($user){
-    return view('hoandemo', ['user' => $user]);
-});
+// login: admin
+Route::get('admincp/login', ['as' => 'getLogin', 'uses' => 'Admin\AdminLoginController@getLogin']);
+Route::post('admincp/login', ['as' => 'postLogin', 'uses' => 'Admin\AdminLoginController@postLogin']);
+Route::get('admincp/logout', ['as' => 'getLogout', 'uses' => 'Admin\AdminLoginController@getLogout']);
+
+/* 
+Route::group(['middleware' => 'checkAdminLogin', 'prefix' => 'admincp', 'namespace' => 'Admin'], function() {
+	Route::get('/', function() {
+		return view('admin.home');
+	});
+}); 
 */
 
 
-//Route::get('a/{name}/{age}','demoController@index')->where(['name'=>'[a-zA-Z]+','age'=>'[0-9]+']);
-//Route::get('call-controller','demoController@index');
 
-//Route::get('user/list','userController@index');
-
-//Route::get('user/{id}/edit','userController@edit');
-//Route::get('user/edit','userController@edit');
-//Route::get('user/{id}/edit',['uses'=> 'userController@edit']);
-//Route::post('user/{id}/update',['uses'=> 'userController@update']);
-
-//Route::get('crud', 'CRUDController');
+// Resource: manage
 Route::resource('crud', 'CRUDController');
 
-//Route::post('crud/create','CRUDController@create');
 
 
 
 
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
