@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use \Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
 class LoginController extends Controller
 {
     /*
@@ -25,6 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
+    
     protected $redirectTo = '/home';
 
     /**
@@ -36,4 +41,35 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function authenticate(Request $request)
+    {
+
+        //$user = Auth::user();
+
+        $login = $request->only('email', 'password');
+        
+        /* 
+        $login = [
+            $user->email => $request->email,
+            $user->password => $request->password,
+            //$user->level => 1,
+            //$user->status => 1
+        ]; 
+        */
+
+        if (Auth::attempt($login)) {
+            // Authentication passed...
+            return redirect()->intended('/home');
+        }
+
+    }
+
 }
