@@ -14,7 +14,7 @@
 // Home
 
 Route::get('/', function () {
-    return view('admin.home');
+    return view('home');
 });
 
 
@@ -27,6 +27,19 @@ Route::resource('crud', 'CRUDController');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('login', 'Auth\LoginController@authenticate');
+Route::get('/home', 'HomeController@index');
 
+// Login: user
+Route::get('login', 'Auth\LoginController@getLogin');
+Route::post('login', 'Auth\LoginController@postLogin')->name('login');
+Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
+
+//email actions
+Route::group(["prefix" => "email"], function() {
+
+    Route::get("login", "Auth\DeviceController@showLoginForm");
+    Route::post("login", "Auth\DeviceController@login")->name("device.login");
+    Route::get("logout", "Auth\DeviceController@logout")->name("device.logout");
+    Route::get("/", "EmailController@index");
+
+});
