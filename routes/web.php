@@ -11,28 +11,21 @@
 |
 */
 
-// Home
-
-Route::get('/', function () {
-    return view('home');
-});
-
-
-// login
-
-
-// Resource: manage
-Route::resource('crud', 'CRUDController');
-
+// Auth: default
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+// Home
+Route::get('home', 'HomeController@index');
 
 // Login: user
 Route::get('login', 'Auth\LoginController@getLogin');
 Route::post('login', 'Auth\LoginController@postLogin')->name('login');
 Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
+
+// Resource: manage
+Route::resource('crud', 'CRUDController');
+
 
 //email actions
 Route::group(["prefix" => "email"], function() {
