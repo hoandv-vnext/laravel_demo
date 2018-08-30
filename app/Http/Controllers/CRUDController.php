@@ -5,7 +5,7 @@ use App\crud;
 
 use Illuminate\Http\Request;
 
-class CRUDController extends Controller
+class CrudController extends Controller
 {
     /**
      * Display a listing of the resource.

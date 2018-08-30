@@ -19,9 +19,10 @@ Auth::routes();
 Route::get('home', 'HomeController@index');
 
 // Login: user
-Route::get('login', 'Auth\LoginController@getLogin');
-Route::post('login', 'Auth\LoginController@postLogin')->name('login');
-Route::get('logout', 'Auth\LoginController@getLogout')->name('logout');
+Route::get("login", "Auth\LoginController@showLoginForm");
+//Route::post("login", "Auth\LoginController@login")->name("user.login");
+Route::get("logout", "Auth\LoginController@logout")->name("user.logout");
+Route::get("/", "CrudController@index");
 
 // Resource: manage
 Route::resource('crud', 'CRUDController');
@@ -30,7 +31,7 @@ Route::resource('crud', 'CRUDController');
 //email actions
 Route::group(["prefix" => "email"], function() {
 
-    Route::get("login", "Auth\DeviceController@showLoginForm");
+    Route::get("signin", "Auth\DeviceController@showLoginForm");
     Route::post("login", "Auth\DeviceController@login")->name("device.login");
     Route::get("logout", "Auth\DeviceController@logout")->name("device.logout");
     Route::get("/", "EmailController@index");

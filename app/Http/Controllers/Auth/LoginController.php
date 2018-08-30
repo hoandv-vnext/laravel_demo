@@ -31,7 +31,7 @@ class LoginController extends Controller
      * @var string
      */
     
-    protected $redirectTo = 'home';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -44,11 +44,11 @@ class LoginController extends Controller
 
     }
 
-    public function getLogin()
+    public function showLoginForm()
     {
         if (Auth::check()) {
             // nếu đăng nhập thàng công thì 
-            return redirect('home');
+            return redirect('/home');
         } else {
             return view('auth.login');
         }
@@ -59,14 +59,17 @@ class LoginController extends Controller
      * @param LoginRequest $request
      * @return RedirectResponse
      */
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
         $email = $request->email;
         $password = $request->password;
 
         
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            return redirect()->route('home');
+
+            //return redirect()->route('home');
+            return redirect('/home');
+            
         } else {
             return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
         }
@@ -76,10 +79,12 @@ class LoginController extends Controller
      * action admincp/logout
      * @return RedirectResponse
      */
-    public function getLogout()
+    public function logout()
     {
         Auth::logout();
-        return redirect()->route('login');
+
+        //return redirect()->route('login');
+        return view('auth.logout');
     }
 
 }
