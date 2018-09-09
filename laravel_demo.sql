@@ -2,10 +2,10 @@
 -- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 07, 2018 at 09:28 AM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.8
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th9 09, 2018 lúc 01:50 PM
+-- Phiên bản máy phục vụ: 10.1.34-MariaDB
+-- Phiên bản PHP: 7.1.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `laravel_demo`
+-- Cơ sở dữ liệu: `laravel_demo`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cruds`
+-- Cấu trúc bảng cho bảng `cruds`
 --
 
 CREATE TABLE `cruds` (
@@ -36,18 +36,10 @@ CREATE TABLE `cruds` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `cruds`
---
-
-INSERT INTO `cruds` (`id`, `title`, `post`, `created_at`, `updated_at`) VALUES
-(1, 'hoandv1', 'hoandv1', '2018-08-27 23:27:33', '2018-08-27 23:27:33'),
-(2, 'hoandv2', 'hoandv2', '2018-08-27 23:27:43', '2018-08-27 23:27:43');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `migrations`
+-- Cấu trúc bảng cho bảng `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -57,19 +49,19 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `migrations`
+-- Đang đổ dữ liệu cho bảng `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2018_08_16_041454_create_cruds_table', 1),
-(6, '2014_10_12_000000_create_users_table', 2),
-(7, '2014_10_12_100000_create_password_resets_table', 2),
-(8, '2018_08_31_045610_create_password_securities_table', 3);
+(1, '2018_08_31_045610_create_password_securities_table', 1),
+(2, '2014_10_12_000000_create_users_table', 2),
+(3, '2014_10_12_100000_create_password_resets_table', 2),
+(4, '2018_08_16_041454_create_cruds_table', 3);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_resets`
+-- Cấu trúc bảng cho bảng `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -81,7 +73,7 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `password_securities`
+-- Cấu trúc bảng cho bảng `password_securities`
 --
 
 CREATE TABLE `password_securities` (
@@ -93,17 +85,10 @@ CREATE TABLE `password_securities` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `password_securities`
---
-
-INSERT INTO `password_securities` (`id`, `user_id`, `google2fa_enable`, `google2fa_secret`, `created_at`, `updated_at`) VALUES
-(3, 3, 0, 'ZCJX7OF6UMOBSWLI', '2018-08-31 01:07:22', '2018-08-31 01:31:03');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Cấu trúc bảng cho bảng `users`
 --
 
 CREATE TABLE `users` (
@@ -119,74 +104,67 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `level`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'hoandv3', '3@gmail.com', '$2y$10$97ok2DDfL8FT9xbaD.1JJOIL/RFoACX54qT7.edbJP3zCOj0VDO6u', 0, 0, 'PukAstjnkOScoiGLLFvBUnMUCbgXviwyQG9vCZ0EviztTiTjDyAdIbZB6aRy', '2018-08-30 18:50:26', '2018-08-30 18:50:26');
-
---
--- Indexes for dumped tables
+-- Chỉ mục cho các bảng đã đổ
 --
 
 --
--- Indexes for table `cruds`
+-- Chỉ mục cho bảng `cruds`
 --
 ALTER TABLE `cruds`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `migrations`
+-- Chỉ mục cho bảng `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `password_resets`
+-- Chỉ mục cho bảng `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indexes for table `password_securities`
+-- Chỉ mục cho bảng `password_securities`
 --
 ALTER TABLE `password_securities`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT cho các bảng đã đổ
 --
 
 --
--- AUTO_INCREMENT for table `cruds`
+-- AUTO_INCREMENT cho bảng `cruds`
 --
 ALTER TABLE `cruds`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `migrations`
+-- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `password_securities`
+-- AUTO_INCREMENT cho bảng `password_securities`
 --
 ALTER TABLE `password_securities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
