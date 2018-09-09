@@ -1,6 +1,7 @@
 <!-- edit.blade.php -->
  
-@extends('layout')
+@extends('layouts.header')
+
 
 @section('content')
 <div class="container">

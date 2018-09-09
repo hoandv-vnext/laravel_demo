@@ -1,0 +1,86 @@
+version: 2 # use CircleCI 2.0
+
+jobs: # a collection of steps
+  build: # runs not using Workflows must have a `build` job as entry point
+    docker: # run the steps with Docker 
+      - image: circleci/php:7.1-jessie-node-browsers
+        environment:
+          APP_ENV: testing
+          APP_KEY: base64:w/Sgz/yM24hMAOXvcZL4VC7XfS1EwbkgYKm1lBIRkwk=
+          
+      - image: circleci/mysql:5.7
+        environment:
+          REDIS_URL: redis://localhost:6379
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_HOST: 127.0.0.1
+          MYSQL_DATABASE: circle_test
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          #MYSQL_PASSWORD:
+          #MYSQL_ROOT_PASSWORD: root
+          
+      - image: redis:4.0.6
+
+    #working_directory: ~/laravel # directory where steps will run
+    
+    steps: # a set of executable commands
+      - checkout # special step to check out source code to working directory
+      
+      #- run: sudo apt-get update; USE_PRECOMPILE=true sudo -E circleci-install php 7.1.0
+      - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
+      - run: sudo docker-php-ext-install zip
+
+      # mysql client
+      - run: sudo apt install mysql-client
+
+      # composer cache
+      - restore_cache:
+          keys:
+          # "composer.lock" can be used if it is committed to the repo
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      # node cache
+
+      - restore_cache:
+          keys:
+            - node-v3-{{ checksum "package.json" }}
+            - node-v3-
+      - run: yarn install
+      - save_cache:
+          key: node-v3-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+            - ~/.yarn
+     
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      
+      #redis cache
+      - run:
+          name: Install Redis Tools
+          command: |
+            sudo apt-get install redis-tools ; while ! redis-cli ping 2>/dev/null ; do sleep 1 ; done
+
+      #database
+      #- run: mysql -u ubuntu circle_test < dansenkanshidb_20180808.sql
+      - run: mysql -h 127.0.0.1 -u root circle_test < laravel_demo.sql
+
+      # run tests with phpunit or codecept
+      #- run: ./vendor/bin/phpunit
+      - run: composer require codeception/codeception --dev
+      - run: php vendor/bin/codecept
+      - run: php vendor/bin/codecept bootstrap
+
+      - run: vendor/bin/codecept build
+      - run: vendor/bin/codecept run --xml result.xml
+
+      - store_test_results:
+          path: tests/_output
+      - store_artifacts:
+          path: tests/_output

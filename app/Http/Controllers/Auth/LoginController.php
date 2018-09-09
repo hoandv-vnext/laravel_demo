@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\user;
 
 class LoginController extends Controller
 {
@@ -40,36 +41,50 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
+    }
+
+    public function showLoginForm()
+    {
+        if (Auth::check()) {
+            // nếu đăng nhập thàng công thì 
+            return redirect('/home');
+        } else {
+            return view('auth.login');
+        }
+
     }
 
     /**
-     * Handle an authentication attempt.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return Response
+     * @param LoginRequest $request
+     * @return RedirectResponse
      */
-    public function authenticate(Request $request)
+    public function login(Request $request)
     {
+        $email = $request->email;
+        $password = $request->password;
 
-        //$user = Auth::user();
-
-        $login = $request->only('email', 'password');
         
-        /* 
-        $login = [
-            $user->email => $request->email,
-            $user->password => $request->password,
-            //$user->level => 1,
-            //$user->status => 1
-        ]; 
-        */
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
 
-        if (Auth::attempt($login)) {
-            // Authentication passed...
-            return redirect()->intended('/home');
+            //return redirect()->route('home');
+            return redirect('/home');
+            
+        } else {
+            return redirect()->back()->with('status', 'Email hoặc Password không chính xác');
         }
+    }
 
+    /**
+     * action admincp/logout
+     * @return RedirectResponse
+     */
+    public function logout()
+    {
+        Auth::logout();
+
+        //return redirect()->route('login');
+        return view('auth.logout');
     }
 
 }

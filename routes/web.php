@@ -11,22 +11,38 @@
 |
 */
 
+// Auth: default
+
+Auth::routes();
+
 // Home
-
-Route::get('/', function () {
-    return view('admin.home');
-});
+Route::get('/home', 'HomeController@index');
+Route::get('/intro', 'HomeController@intro');
 
 
-// login
+// Login: user
+Route::get("login", "Auth\LoginController@showLoginForm");
+//Route::post("login", "Auth\LoginController@login")->name("user.login");
+//Route::get("logout", "Auth\LoginController@logout")->name("user.logout");
+Route::get("/user/list", "CrudController@index");
+
+// Login: 2fa
+Route::get('/2fa','PasswordSecurityController@show2faForm');
+Route::post('/generate2faSecret','PasswordSecurityController@generate2faSecret')->name('generate2faSecret');
+Route::post('/2fa','PasswordSecurityController@enable2fa')->name('enable2fa');
+Route::post('/disable2fa','PasswordSecurityController@disable2fa')->name('disable2fa');
 
 
 // Resource: manage
 Route::resource('crud', 'CRUDController');
 
 
-Auth::routes();
+//email actions
+Route::group(["prefix" => "email"], function() {
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('login', 'Auth\LoginController@authenticate');
+    Route::get("signin", "Auth\DeviceController@showLoginForm");
+    Route::post("login", "Auth\DeviceController@login")->name("device.login");
+    Route::get("logout", "Auth\DeviceController@logout")->name("device.logout");
+    Route::get("/", "EmailController@index");
 
+});
