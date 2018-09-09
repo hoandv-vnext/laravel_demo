@@ -12,9 +12,11 @@ jobs: # a collection of steps
         environment:
           REDIS_URL: redis://localhost:6379
           MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_HOST: %
           MYSQL_DATABASE: circle_test
           MYSQL_USER: root
-          MYSQL_PASSWORD:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          #MYSQL_PASSWORD:
           #MYSQL_ROOT_PASSWORD: root
           
       - image: redis:4.0.6
