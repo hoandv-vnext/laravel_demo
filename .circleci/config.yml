@@ -8,7 +8,7 @@ jobs: # a collection of steps
           APP_ENV: testing
           APP_KEY: base64:w/Sgz/yM24hMAOXvcZL4VC7XfS1EwbkgYKm1lBIRkwk=
           
-      - image: circleci/mysql:latest
+      - image: circleci/mysql:5.7
         environment:
           REDIS_URL: redis://localhost:6379
           MYSQL_HOST: 127.0.0.1
